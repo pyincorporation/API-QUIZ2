@@ -5,8 +5,75 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        div.main{
+            display: flex;
+            width: 80%;
+            flex-direction: column;
+        }
+        div.header{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            background-color: rgb(252,252,253);
+            margin-top: 5px;
+            padding: 10px;
+        }
+        div.header>div.id{
+            width: 5%;
+        }
+        div.header>div{
+            width: 20%;
+        }
+        div.header>div.sub{
+            width: 50%;
+        }
+        header{
+            width: 100%;
+            background-color: black;
+            height: 65px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        img{
+            width: 100px;
+            height: auto;
+        }
+        span{
+            color: white;
+            font-size: 18px;
+            padding: 10px;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: 0;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+        h1{
+            padding: 20px;
+        }
+        div.wrapper{
+            border-bottom: solid 1px grey ;
+            background: rgb(230,230,230);
+        }
+        form{
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
+    <header>
+        <img src="pyinc-logo.png">
+        <span>pyinc develeopers</span>
+    </header>
     <h1>Search User</h1>
     <form action="" method='post'>
     <label for="username">username</label>
@@ -15,6 +82,14 @@
     <input type='password' name='password'placeholder='******' required=''></br></br>
     <input type='submit' value="Login" name="submit">
     </form>
+
+    <div class="main">
+        <div class="header wrapper">
+            <div class="id">id</div>
+            <div class="reg">regno</div>
+            <div class="sub">subject</div>
+            <div>markss</div>
+        </div>
     
     <?php
     if(isset($_POST['submit'])){
@@ -70,10 +145,6 @@
         if ($token === null) {
             die('Failed to retrieve token');
         }
-
-        // Output the token
-        echo "<b>TOKEN</b> ".$token."<br></br>";
-
 
         // SECOND ENDPOINT
         include_once('conn.php');
@@ -148,18 +219,24 @@ while ($i < $totalRecords) {
         }
         // Close cURL resource
         curl_close($curl); 
+        $counter=1;
         $sql="select * from studentinfo where regno ='$regno' ";
         $result=mysqli_query($connection, $sql);
         while($res=mysqli_fetch_assoc($result)){
-            echo(base64_decode($res['regno']));
-            echo(base64_decode($res['subject']));
-            echo(base64_decode($res['marks']));
+            
+            ?>
+        <div class="header">
+            <div class="id"><?php echo($counter++);?></div>
+            <div><?php echo(base64_decode($res['regno'])); ?></div>
+            <div class="sub"><?php echo(base64_decode($res['subject'])); ?></div>
+            <div><?php echo(base64_decode($res['marks'])); ?></div>
+        </div>
+        <?php
+            
         }
        
     }
-
          ?>
-
-
+    </div>
 </body>
 </html>
